@@ -12,52 +12,43 @@ Command-line utilities for AI-driven development and troubleshooting
 - 🛠️ `aifix` repairs broken CLI commands by editing the relevant code or setup
 - 💬 Interactive when needed, but often fully hands-free
 
-## Models
-- defaults to "o4-mini", which is the cheapest model, and cost practically nothing
-- for particularly tough issues, supply `--model=o3-mini` to use a significantly smarter model, at 7x the cost of o4-mini.
-- In theory you could even do `--model=o1`, which is 100x more expensive than o4-mini,  and 13x more expensive than o3-mini (Untested...)
+## AI Models
+
+- **Default Model - o4-mini**: Cost-effective and suitable for general tasks.
+- **Advanced Model - o3-mini**: Choose this for complex tasks; it's 7 times the cost of o4-mini.
+- **Premium Model - o1**: Use for the most challenging issues; it's 100 times more expensive than o4-mini and 13 times more than o3-mini (untested).
 
 # Example
-```
-hans@LAPTOP-O1AO16UE:/wtf$ aido make a hello world c++ program
-(...)
->I have created a "Hello, World!" C++ program and saved it as `hello_world.cpp`. If you need further assistance or want to compile and run the program, please let me know!"
+# Advanced Example
+```bash
+# Using aido to automate the setup of a small web project
+hans@LAPTOP-O1AO16UE:/projects$ aido create a new web project with HTML, CSS, and JavaScript
+(...execution output...)
+> I have set up a new web project with the files `index.html`, `styles.css`, and `script.js`.
 
-hans@LAPTOP-O1AO16UE:/wtf$ cat hello_world.cpp 
-#include <iostream>
+# Displaying the structure of the created project
+hans@LAPTOP-O1AO16UE:/projects$ tree new-web-project
+new-web-project
+├── index.html
+├── styles.css
+└── script.js
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
-hans@LAPTOP-O1AO16UE:/wtf$ echo syntaxerror >> hello_world.cpp 
-hans@LAPTOP-O1AO16UE:/wtf$ g++ hello_world.cpp 
-hello_world.cpp:6:2: error: ‘syntaxerror’ does not name a type
-    6 | }syntaxerror
-      |  ^~~~~~~~~~~
+# Intentionally adding a syntax error in JavaScript
+hans@LAPTOP-O1AO16UE:/projects/new-web-project$ echo 'consol.log("Test")' >> script.js
 
-hans@LAPTOP-O1AO16UE:/wtf$ aifix g++ hello_world.cpp 
-(...)
-"Please analyze and resolve the following issue using all available tools if needed:
-Issue Details:
-array(4) {
-  ["command"]=>
-  string(19) "g++ hello_world.cpp"
-  ["exit_code"]=>
-  int(1)
-  ["stdout"]=>
-  string(0) ""
-  ["stderr"]=>
-  string(109) "hello_world.cpp:6:2: error: ‘syntaxerror’ does not name a type
-    6 | }syntaxerror
-      |  ^~~~~~~~~~~
-"
-(...)
-"The issue in the provided code has been resolved. The extraneous text `syntaxerror` was removed from the `hello_world.cpp` file, and the code compiled successfully.
-If you need any further assistance or have additional requests, feel free to ask!"
-hans@LAPTOP-O1AO16UE:/wtf$ g++ hello_world.cpp 
-hans@LAPTOP-O1AO16UE:/wtf$ ./a.out 
-Hello, World!
+# Simulating the error by running the script through Node.js
+hans@LAPTOP-O1AO16UE:/projects/new-web-project$ node script.js
+(...execution output...)
+> ReferenceError: consol is not defined
+
+# Using aifix to automatically resolve the syntax error
+hans@LAPTOP-O1AO16UE:/projects/new-web-project$ aifix node script.js
+(...execution output...)
+> The issue has been resolved. The text `consol` was corrected to `console`.
+
+# Running the corrected JavaScript file
+hans@LAPTOP-O1AO16UE:/projects/new-web-project$ node script.js
+Test
 ```
 
 # Requirements
@@ -65,7 +56,7 @@ Hello, World!
 - OpenAI API key
 - unix system (Linux/MacOS)
 # Installation
-```
+```bash
 git clone --recurse-submodules --depth=1 https://github.com/divinity76/aido-aifix.git
 cd aido-aifix
 sudo ln -sv "$(pwd)/src/aido.php" /usr/local/bin/aido
