@@ -12,6 +12,11 @@ Command-line utilities for AI-driven development and troubleshooting
 - 🛠️ `aifix` repairs broken CLI commands by editing the relevant code or setup
 - 💬 Interactive when needed, but often fully hands-free
 
+## Models
+- defaults to "o4-mini", which is the cheapest model, and cost practically nothing
+- for particularly tough issues, supply `--model=o3-mini` to use a significantly smarter model, at 7x the cost of o4-mini.
+- In theory you could even do `--model=o1`, which is 100x more expensive than o4-mini,  and 13x more expensive than o3-mini (Untested...)
+
 # Example
 ```
 hans@LAPTOP-O1AO16UE:/wtf$ aido make a hello world c++ program
