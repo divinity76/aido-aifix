@@ -61,6 +61,8 @@ Hello, World!
 - unix system (Linux/MacOS)
 # Installation
 ```
+git clone --recurse-submodules --depth=1 https://github.com/divinity76/aido-aifix.git
+cd aido-aifix
 sudo ln -sv "$(pwd)/src/aido.php" /usr/local/bin/aido
 sudo chmod a+x /usr/local/bin/aido
 sudo ln -sv "$(pwd)/src/aifix.php" /usr/local/bin/aifix
