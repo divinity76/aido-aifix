@@ -1,6 +1,9 @@
 # aido-aifix
 aido and aifix: Command-line utilities for AI-driven development and troubleshooting
 
+- **aido** is an AI assistant you can talk to from the command line. Describe what you want to do in plain language — and it will figure it out *and actually do it* for you. That might mean generating code, installing packages, creating files, running commands, or all of the above.
+  
+- **aifix** takes a broken command (like a failed compile), analyzes the error, and automatically edits your files or environment until the issue is resolved.
 # Example
 ```
 hans@LAPTOP-O1AO16UE:/wtf$ aido make a hello world c++ program
