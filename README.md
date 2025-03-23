@@ -12,14 +12,7 @@ Command-line utilities for AI-driven development and troubleshooting
 - 🛠️ `aifix` repairs broken CLI commands by editing the relevant code or setup
 - 💬 Interactive when needed, but often fully hands-free
 
-## AI Models
-
-- **Default Model - o4-mini**: Cost-effective and suitable for general tasks.
-- **Advanced Model - o3-mini**: Choose this for complex tasks; it's 7 times the cost of o4-mini.
-- **Premium Model - o1**: Use for the most challenging issues; it's 100 times more expensive than o4-mini and 13 times more than o3-mini (untested).
-
 # Example
-# Advanced Example
 ```bash
 # Using aido to automate the setup of a small web project
 hans@LAPTOP-O1AO16UE:/projects$ aido create a new web project with HTML, CSS, and JavaScript
@@ -64,3 +57,9 @@ sudo chmod a+x /usr/local/bin/aido
 sudo ln -sv "$(pwd)/src/aifix.php" /usr/local/bin/aifix
 sudo chmod a+x /usr/local/bin/aifix
 ```
+## AI Models
+
+- **Default Model - o4-mini**: Cost-effective and suitable for general tasks.
+- **Advanced Model - o3-mini**: Choose this for complex tasks; it's 7 times the cost of o4-mini.
+- **Premium Model - o1**: Use for the most challenging issues; it's 100 times more expensive than o4-mini and 13 times more than o3-mini (untested).
+
