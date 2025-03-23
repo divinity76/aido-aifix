@@ -11,6 +11,7 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline) {
 //require_once(__DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'OpenAI.class.php');
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'stuff' . DIRECTORY_SEPARATOR . 'Cache.class.php');
+
 function dd(...$args)
 {
     $trace = debug_backtrace();
@@ -21,14 +22,17 @@ function dd(...$args)
     var_dump(...$args);
     die();
 }
+
 function js_decode(string $json): mixed
 {
     return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 }
+
 function js_encode(mixed $data): string
 {
     return json_encode($data, JSON_INVALID_UTF8_SUBSTITUTE | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS | JSON_THROW_ON_ERROR);
 }
+
 function return_var_dump(...$args): string
 {
     ob_start();
@@ -36,6 +40,7 @@ function return_var_dump(...$args): string
     $output = ob_get_clean();
     return $output;
 }
+
 function run_input_command(array $args): array
 {
     if (0) {
@@ -139,8 +144,7 @@ function run_input_command(array $args): array
         "command" => $compiledCommand,
         "exit_code" => $exit_code,
         "stdout" => $stdout_log,
-        "stderr" => $stderr_log,
-        // "std_combined" => $std_combined_log
+        "stderr" => $stderr_log
     ];
 }
 
@@ -180,7 +184,7 @@ function pick_ai_model(): string
                 'o3mini' => 'o3-mini',
                 'o3-mini' => 'o3-mini'
             );
-            if (!in_array($providedModel, $models, true)) {
+            if (!array_key_exists($providedModel, $models)) {
                 throw new Exception('Invalid model provided. Allowed values: ' . implode(', ', array_keys($models)));
             }
             $model = $models[$providedModel];
@@ -190,6 +194,5 @@ function pick_ai_model(): string
     }
     $argv = array_values($argv);
     $argc = count($argv);
-    unset($key);
     return $model;
 }
