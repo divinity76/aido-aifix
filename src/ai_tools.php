@@ -645,7 +645,9 @@ $openai->addTool(
         ]);
         echo $question . "\n";
         $line = readline("Your response: ");
-        readline_add_history($line);
+        if ($line !== false) {
+            readline_add_history($line);
+        }
 
         return js_encode(['response' => trim($line)]);
     }

@@ -177,7 +177,8 @@ function pick_ai_model(): string
                 'gpt-4o' => 'gpt-4o',
                 '4omini' => 'gpt-4o-mini',
                 'gpt-4o-mini' => 'gpt-4o-mini',
-                'o3mini' => 'o3-mini'
+                'o3mini' => 'o3-mini',
+                'o3-mini' => 'o3-mini'
             );
             if (!in_array($providedModel, $models, true)) {
                 throw new Exception('Invalid model provided. Allowed values: ' . implode(', ', array_keys($models)));
