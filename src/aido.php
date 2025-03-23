@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+require_once('common.inc.php');
+
+// Create OpenAI instance and set the model
+$openai = new OpenAI(get_openai_api_key());
+$openai->setModel(pick_ai_model());
+
+require_once('ai_tools.php');
+
+// Get the user-provided instructions from the command-line arguments
+$args = $argv;
+array_shift($args);
+if (empty($args)) {
+    throw new Exception('Usage: aido "your instructions here"');
+}
+$userInstructions = implode(" ", $args);
+
+// Build the query with generic instructions
+$query  = "Please follow the instructions provided below using all available tools if needed:\n\n";
+$query .= "User Instructions:\n" . $userInstructions . "\n\n";
+$query .= "Additional Guidelines:\n";
+$query .= "1. Execute the instructions accurately.\n";
+$query .= "2. Use all available tools to complete the task.\n";
+$query .= "3. If the task requires any clarifications or confirmation, immediately call the ask_user tool with the appropriate question and wait for a response. Do not include the question as plain text in your answer. If further clarification is needed, abort the process.\n";
+$query .= "4. If additional functionality or context is needed, describe what is missing and abort the process.\n";
+$query .= "5. When a file update is required, call the file_put_contents tool with the correct file path and updated content. Do not output the updated file content in plaintext.";
+
+var_dump($query);
+dd($openai->ask($query));

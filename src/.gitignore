@@ -1,0 +1,7 @@
+/stuff/cache.db3
+#<composer>
+/composer.phar
+/vendor/
+/composer.lock
+#</composer>
+
