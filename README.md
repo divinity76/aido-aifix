@@ -59,7 +59,7 @@ sudo chmod a+x /usr/local/bin/aifix
 ```
 ## AI Models
 
-- **Default Model - o4-mini**: Cost-effective and suitable for general tasks.
-- **Advanced Model - o3-mini**: Choose this for complex tasks; it's 7 times the cost of o4-mini.
-- **Premium Model - o1**: Use for the most challenging issues; it's 100 times more expensive than o4-mini and 13 times more than o3-mini (untested).
+- **Default Model - 4o-mini**: Cost-effective and suitable for general tasks.
+- **Advanced Model - o3-mini**: Choose this for complex tasks; it's 7 times the cost of 4o-mini.
+- **Premium Model - o1**: Use for the most challenging issues; it's 100 times more expensive than 4o-mini and 13 times more than o3-mini (untested).
 
