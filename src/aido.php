@@ -14,7 +14,8 @@ require_once('ai_tools.php');
 $args = $argv;
 array_shift($args);
 if (empty($args)) {
-    throw new Exception('Usage: aido "your instructions here"');
+    fwrite(STDERR, "Usage: aido \"your instructions here\"\n");
+    exit(1);
 }
 $userInstructions = implode(" ", $args);
 

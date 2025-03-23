@@ -12,7 +12,8 @@ require_once('ai_tools.php');
 $args = $argv;
 array_shift($args);
 if (empty($args)) {
-    throw new Exception('Usage: aifix failing thing');
+    fwrite(STDERR, "Usage: aifix failing thing\n");
+    exit(1);
 }
 $problem_data = run_input_command($args);
 if (1) {
