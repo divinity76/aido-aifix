@@ -2,13 +2,13 @@
 <?php
 
 declare(strict_types=1);
-require_once('common.inc.php');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'common.inc.php');
 
 // Create OpenAI instance and set the model
 $openai = new OpenAI(get_openai_api_key());
 $openai->setModel(pick_ai_model());
 
-require_once('ai_tools.php');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'ai_tools.php');
 
 // Get the user-provided instructions from the command-line arguments
 $args = $argv;
