@@ -150,28 +150,33 @@ function run_input_command(array $args): array
 
 function get_openai_api_key(): string
 {
-    $api_key_location = implode(DIRECTORY_SEPARATOR, [
-        getenv('HOME'),
-        '.config',
-        'openai',
-        'api_key.txt'
-    ]);
-    if (!file_exists($api_key_location)) {
-        throw new Exception('OpenAI api key not found at ' . $api_key_location);
+    $configFile = '/home/hans/.config/aido.json';
+    if (!file_exists($configFile)) {
+        throw new Exception('OpenAI api key not found at ' . $configFile);
     }
-    $key = file_get_contents($api_key_location);
-    $key = trim($key);
-    if (empty($key)) {
-        throw new Exception('OpenAI key is required. Unable to read key from ' . $api_key_location);
+    $contents = file_get_contents($configFile);
+    $config = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+    if (empty($config['api_key'])) {
+        throw new Exception('OpenAI key is required. Unable to read key from ' . $configFile);
     }
+    $key = trim($config['api_key']);
     return $key;
 }
 
 function pick_ai_model(): string
 {
-    $model = 'gpt-4o-mini';
     global $argv;
     global $argc;
+    $home = getenv('HOME');
+    $configFile = $home . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
+    $model = 'gpt-4o-mini';
+    if (file_exists($configFile)) {
+        $contents = file_get_contents($configFile);
+        $config = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+        if (!empty($config['default_model'])) {
+            $model = $config['default_model'];
+        }
+    }
     // Process command-line arguments for the --model option
     foreach ($argv as $index => $arg) {
         if (strpos($arg, '--model=') === 0) {
