@@ -13,9 +13,9 @@ Command-line utilities for AI-driven development and troubleshooting
 - 💬 Interactive when needed, but often fully hands-free
 
 # Example
-Here is aido installing wscat on Ubuntu when apt-get install is failing
-(using model o3-mini)
-```
+Here’s how **aifix**  handled a broken `apt install` by suggesting and guiding through an alternative installation method for `wscat` on Ubuntu.  
+_Model used: `o3-mini`_
+```bash
 hans@LAPTOP-O1AO16UE:/wtf$ wscat
 Command 'wscat' not found, but can be installed with:
 sudo apt install node-ws
