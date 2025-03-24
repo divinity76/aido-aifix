@@ -178,20 +178,29 @@ $openai->addTool(
     'file_get_contents',
     'Read the contents of a file',
     [
-        'path' => ['type' => 'string', 'description' => 'The file to read']
+        'path' => ['type' => 'string', 'description' => 'The file to read'],
+        'offset' => ['type' => 'integer', 'description' => 'offset to start reading from, default 0'],
+        'length' => ['type' => 'integer', 'description' => 'length to read']
     ],
-    function ($toolName, $path) {
+    function ($toolName, $path, $offset = 0, $length = null) {
+        $length = $length ?? PHP_INT_MAX;
+        // Invalid 'messages[4].content': string too long. Expected a string with maximum length 1048576, but got a string with length 1056035 instead.
+        // This model's maximum context length is 200000 tokens. However, your messages resulted in 257907 tokens (257370 in the messages, 537 in the functions). Please reduce the length of the messages or functions.
+        $offset = filter_var($offset, FILTER_VALIDATE_INT);
+        $length = filter_var($length, FILTER_VALIDATE_INT);
         $path = AiDirFixer($path);
         var_dump([
             "toolName" => $toolName,
-            "path" => $path
+            "path" => $path,
+            "offset" => $offset,
+            "length" => $length
         ]);
         if (!is_file($path)) {
             return js_encode([
                 'error' => 'Not a valid file: ' . var_export($path, true)
             ]);
         }
-        $content = file_get_contents($path);
+        $content = file_get_contents($path, false, null, $offset, $length);
         if ($content === false) {
             return js_encode([
                 //'file_path' => $path,
@@ -199,7 +208,8 @@ $openai->addTool(
             ]);
         }
         return js_encode([
-            'contents' => $content
+            'contents' => $content,
+            'file_size' => filesize($path),
         ]);
     }
 );
