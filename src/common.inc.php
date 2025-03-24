@@ -150,7 +150,7 @@ function run_input_command(array $args): array
 
 function get_openai_api_key(): string
 {
-    $configFile = '/home/hans/.config/aido.json';
+    $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
     if (!file_exists($configFile)) {
         throw new Exception('OpenAI api key not found at ' . $configFile);
     }
@@ -167,8 +167,7 @@ function pick_ai_model(): string
 {
     global $argv;
     global $argc;
-    $home = getenv('HOME');
-    $configFile = $home . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
+    $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
     $model = 'gpt-4o-mini';
     if (file_exists($configFile)) {
         $contents = file_get_contents($configFile);
