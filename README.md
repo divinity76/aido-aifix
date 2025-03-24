@@ -13,6 +13,67 @@ Command-line utilities for AI-driven development and troubleshooting
 - 💬 Interactive when needed, but often fully hands-free
 
 # Example
+Here is aido installing wscat on Ubuntu when apt-get install is failing
+(using model o3-mini)
+```
+hans@LAPTOP-O1AO16UE:/wtf$ wscat
+Command 'wscat' not found, but can be installed with:
+sudo apt install node-ws
+hans@LAPTOP-O1AO16UE:/wtf$ sudo apt install node-ws
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ node-ws : Depends: node-https-proxy-agent (>= 7) but it is not going to be installed
+           Depends: nodejs:any
+E: Unable to correct problems, you have held broken packages.
+hans@LAPTOP-O1AO16UE:/wtf$ aifix wscat
+(...debug output...)
+The error encountered indicates that the 'wscat' command is not installed. Would you like me to install 'wscat' globally via npm (npm install -g wscat) to resolve this issue?
+Your response: yes
+(...debug output...)
+The installation using 'npm install -g wscat' failed due to permission issues (EACCES). Would you like me to try running the installation command with sudo (i.e., 'sudo npm install -g wscat') to attempt a global installation?
+Your response: yes
+(...debug output...)
+string(485) "The issue was that the "wscat" command was not found because it was not installed. After asking for confirmation, I attempted to install it globally via npm. The initial installation attempt failed due to permission issues (EACCES error). Upon further clarification, I then executed "sudo npm install -g wscat", which successfully installed wscat. Finally, I confirmed that the command is now available by running "wscat --version", which returned "6.0.1". 
+
+The issue is now resolved."
+hans@LAPTOP-O1AO16UE:/wtf$ wscat
+Usage: wscat [options] (--listen <port> | --connect <url>)
+
+Options:
+  -V, --version                       output the version number
+  --auth <username:password>          add basic HTTP authentication header
+  --ca <ca>                           specify a Certificate Authority (--connect only)
+  --cert <cert>                       specify a Client SSL Certificate (--connect only)
+  --host <host>                       optional host
+  --key <key>                         specify a Client SSL Certificate's key (--connect only)
+  --max-redirects [num]               maximum number of redirects allowed (default: 10)
+  --no-color                          run without color
+  --passphrase [passphrase]           specify a Client SSL Certificate Key's passphrase (--connect only). If you don't provide a value, it will be prompted for
+  --proxy <[protocol://]host[:port]>  connect via a proxy. Proxy must support CONNECT method
+  --slash                             enable slash commands for control frames (/ping [data], /pong [data], /close [code [, reason]]) (--connect only)
+  -c, --connect <url>                 connect to a WebSocket server
+  -H, --header <header:value>         set an HTTP header. Repeat to set multiple (--connect only) (default: [])
+  -l, --listen <port>                 listen on port
+  -L, --location                      follow redirects
+  -n, --no-check                      do not check for unauthorized certificates (--connect only)
+  -o, --origin <origin>               optional origin
+  -p, --protocol <version>            optional protocol version
+  -P, --show-ping-pong                print a notification when a ping or pong is received (--connect only)
+  -s, --subprotocol <protocol>        optional subprotocol. Repeat to specify more than one (default: [])
+  -w, --wait <seconds>                wait given seconds after executing command
+  -x, --execute <command>             execute command after connecting (--connect only)
+  -h, --help                          display help for command
+```
+
+Another example (not a real-life example):
 ```bash
 # Using aido to automate the setup of a small web project
 hans@LAPTOP-O1AO16UE:/projects$ aido create a new web project with HTML, CSS, and JavaScript
