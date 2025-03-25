@@ -5,6 +5,15 @@ Command-line utilities for AI-driven development and troubleshooting
 
 - **aifix** is your automated troubleshooter. It takes a broken CLI command (like a failed compile), analyzes the error, and keeps editing code or adjusting the environment until the issue is resolved.
 
+## Marketing fluff
+
+> 🛠️ aido-aifix is the developer assistant you always wished came preinstalled on your OS.
+>
+>If apt, npm, node, or your code breaks — it doesn’t just tell you what to do, it does it.
+>
+>🔥 10/10 would install on every dev machine. --author
+
+
 ## ✨ Features
 
 - ⚡ Just tell `aido` what you want — it makes it happen, step by step
