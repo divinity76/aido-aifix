@@ -103,6 +103,8 @@ sudo ln -sv "$(pwd)/src/aido.php" /usr/local/bin/aido
 sudo chmod a+x /usr/local/bin/aido
 sudo ln -sv "$(pwd)/src/aifix.php" /usr/local/bin/aifix
 sudo chmod a+x /usr/local/bin/aifix
+mkdir -p ~/.config/
+echo '{"api_key":"OpenAI-api-key-here"}' > ~/.config/aido.json
 ```
 
 ### 🤖 AI Model Comparison
