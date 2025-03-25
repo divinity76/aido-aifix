@@ -7,9 +7,7 @@ Command-line utilities for AI-driven development and troubleshooting
 
 ## Marketing fluff
 
-> 🛠️ aido-aifix is the developer assistant you always wished came preinstalled on your OS.
->
->If apt, npm, node, or your code breaks — it doesn’t just tell you what to do, it does it.
+> 🛠️ If apt, npm, node, or your code breaks — it doesn’t just tell you what to do, it does it.
 >
 >🔥 10/10 would install on every dev machine. --author
 
