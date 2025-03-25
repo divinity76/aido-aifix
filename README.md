@@ -1,18 +1,19 @@
 ## aido-aifix
 Command-line utilities for AI-driven development and troubleshooting
 
-- **aido** is an AI assistant you can talk to from the command line. Describe what you want to do in plain language — and it will figure it out *and actually do it* for you. That might mean generating code, installing packages, creating files, running commands, or all of the above.
-  
-- **aifix** takes a broken command (like a failed compile), analyzes the error, and automatically edits your files or environment and re-runs the command, until the issue is resolved.
+- **aido** is your command-line AI assistant. Describe your goal in plain English — it figures out what to do *and actually does it*. That might mean **generating code**, **installing packages**, **creating files**, **running commands** — or all of the above.
+
+- **aifix** is your automated troubleshooter. It takes a broken CLI command (like a failed compile), analyzes the error, and keeps editing code or adjusting the environment until the issue is resolved.
 
 ## ✨ Features
 
 - ⚡ Just tell `aido` what you want — it makes it happen, step by step
 - 📦 Automatically installs missing packages, creates files, edits code
-- 🛠️ `aifix` repairs broken CLI commands by editing the relevant code or setup
+- 🛠️ `aifix` resolves broken CLI commands by editing the relevant code or environment, until the problem is resolved.
+  _Stop chasing cryptic errors — let AI fix them._
 - 💬 Interactive when needed, but often fully hands-free
 
-# Example
+## 🧪 Example: Fixing a Broken Command with `aifix`
 Here’s how **aifix**  handled a broken `apt install` by suggesting and guiding through an alternative installation method for `wscat` on Ubuntu.  
 _Model used: `o3-mini`_
 ```bash
@@ -41,7 +42,7 @@ Your response: yes
 The installation using 'npm install -g wscat' failed due to permission issues (EACCES). Would you like me to try running the installation command with sudo (i.e., 'sudo npm install -g wscat') to attempt a global installation?
 Your response: yes
 (...debug output...)
-string(485) "The issue was that the \"wscat\" command was not found because it was not installed. After asking for confirmation, I attempted to install it globally via npm. The initial installation attempt failed due to permission issues (EACCES error). Upon further clarification, I then executed \"sudo npm install -g wscat\", which successfully installed wscat. Finally, I confirmed that the command is now available by running \"wscat --version\", which returned \"6.0.1\". 
+string(485) "The issue was that the \"wscat\" command was not found because it was not installed. After asking for confirmation, I attempted to install it globally via npm. The initial installation attempt failed due to permission issues (EACCES error). Upon further clarification, I then executed \"sudo npm install -g wscat\", which successfully installed wscat. Finally, I confirmed that the command is now available by running \"wscat --version\", which returned \"6.0.1\".
 
 The issue is now resolved."
 hans@LAPTOP-O1AO16UE:/wtf$ wscat
@@ -53,27 +54,10 @@ Options:
   --ca <ca>                           specify a Certificate Authority (--connect only)
   --cert <cert>                       specify a Client SSL Certificate (--connect only)
   --host <host>                       optional host
-  --key <key>                         specify a Client SSL Certificate's key (--connect only)
-  --max-redirects [num]               maximum number of redirects allowed (default: 10)
-  --no-color                          run without color
-  --passphrase [passphrase]           specify a Client SSL Certificate Key's passphrase (--connect only). If you don't provide a value, it will be prompted for
-  --proxy <[protocol://]host[:port]>  connect via a proxy. Proxy must support CONNECT method
-  --slash                             enable slash commands for control frames (/ping [data], /pong [data], /close [code [, reason]]) (--connect only)
-  -c, --connect <url>                 connect to a WebSocket server
-  -H, --header <header:value>         set an HTTP header. Repeat to set multiple (--connect only) (default: [])
-  -l, --listen <port>                 listen on port
-  -L, --location                      follow redirects
-  -n, --no-check                      do not check for unauthorized certificates (--connect only)
-  -o, --origin <origin>               optional origin
-  -p, --protocol <version>            optional protocol version
-  -P, --show-ping-pong                print a notification when a ping or pong is received (--connect only)
-  -s, --subprotocol <protocol>        optional subprotocol. Repeat to specify more than one (default: [])
-  -w, --wait <seconds>                wait given seconds after executing command
-  -x, --execute <command>             execute command after connecting (--connect only)
-  -h, --help                          display help for command
+(...)
 ```
 
-Another example (not a real-life example):
+## ⚙️ Example: Creating a Web Project with `aido`
 ```bash
 # Using aido to automate the setup of a small web project
 hans@LAPTOP-O1AO16UE:/projects$ aido create a new web project with HTML, CSS, and JavaScript
@@ -105,10 +89,12 @@ hans@LAPTOP-O1AO16UE:/projects/new-web-project$ node script.js
 Test
 ```
 
-# Requirements
-- php-cli >=8
-- OpenAI API key
-- unix system (Linux/MacOS)
+## 🧰 Requirements
+
+- **PHP** 8.0 or newer
+- **OpenAI API key** (with access to models like `o3-mini`)
+- **Unix-like OS** (Linux, macOS, *BSD)
+
 # Installation
 ```bash
 git clone --recurse-submodules --depth=1 https://github.com/divinity76/aido-aifix.git
@@ -119,13 +105,14 @@ sudo ln -sv "$(pwd)/src/aifix.php" /usr/local/bin/aifix
 sudo chmod a+x /usr/local/bin/aifix
 ```
 
-## AI Models
+### 🤖 AI Model Comparison
+| Model      | Cost vs o3-mini | Quality       | Notes                                  |
+|------------|------------------|---------------|-----------------------------------------|
+| `o3-mini`  | 1x               | ✅ Great       | Default choice — solid balance of cost and performance |
+| `o1`       | 13.6x            | 🔥 Best        | Use for the toughest problems — very capable |
+| `4o`       | 2.27x            | ⚠️ Meh         | Not worth the extra cost — often worse than `o3-mini` |
+| `4o-mini`  | 0.14x            | 💤 Lazy        | Very cheap, but tends to apply and report unverified fixes |
 
-- **Default Model - o3-mini**: Cost-effective and suitable for general tasks.
+- **4o**: Not recommended. 2.27x more expensive than o3-mini, and seems to do *worse*, or no better, than o3-mini.
 
-- **Premium Model - o1**: Use for the most challenging issues; it's approximately 13.6 times more expensive than o3-mini.
-
-- **4o**: 2.27x more expensive than o3-mini, and seems to do *worse*, or no better, than o3-mini.
-
-- **4o-mini** is the cheapest option, cost only 14% of o3-mini, but it's "lazy"—it may assume it found the solution, apply it, and report success without verifying the issue is truly resolved. Not recommended :( (it is the cheapest way to test aifix / aido, tho)
-
+- **4o-mini**: Not recommended. is the cheapest option, cost only 14% of o3-mini, but it's "lazy"—it may assume it found the solution, apply it, and report success without actually verifying. Not recommended :( (it is the cheapest way to test aifix / aido, tho)
