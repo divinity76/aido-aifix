@@ -86,11 +86,22 @@ class OpenAI
                     }
                     $handler = $this->tools_handlers[$toolName];
                     //var_dump($toolName, $arguments);
-                    if(isset($arguments['.current_page']) && !isset($arguments['current_page'])){
+                    if (isset($arguments['.current_page']) && !isset($arguments['current_page'])) {
                         // for some reason, sometimes the AI refers to current_page argument as .current_page... not sure why
                         $arguments['current_page'] = $arguments['.current_page'];
                         unset($arguments['.current_page']);
                     }
+                    if ($toolName === 'pwd') {
+                        // may try to send argument "pwd"=>""                        
+                        $arguments = [];
+                    }
+                    try {
+                        $toolResult = $handler($toolName, ...$arguments);
+                    } catch (\Throwable $e) {
+                        var_dump(["toolName" => $toolName, "arguments" => $arguments]);
+                        throw $e;
+                    }
+
                     $toolResult = $handler($toolName, ...$arguments);
                     // Record the tool call and the tool's response into the message history.
                     $this->messages[] = [
