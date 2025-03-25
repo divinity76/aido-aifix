@@ -41,7 +41,7 @@ Your response: yes
 The installation using 'npm install -g wscat' failed due to permission issues (EACCES). Would you like me to try running the installation command with sudo (i.e., 'sudo npm install -g wscat') to attempt a global installation?
 Your response: yes
 (...debug output...)
-string(485) "The issue was that the "wscat" command was not found because it was not installed. After asking for confirmation, I attempted to install it globally via npm. The initial installation attempt failed due to permission issues (EACCES error). Upon further clarification, I then executed "sudo npm install -g wscat", which successfully installed wscat. Finally, I confirmed that the command is now available by running "wscat --version", which returned "6.0.1". 
+string(485) "The issue was that the \"wscat\" command was not found because it was not installed. After asking for confirmation, I attempted to install it globally via npm. The initial installation attempt failed due to permission issues (EACCES error). Upon further clarification, I then executed \"sudo npm install -g wscat\", which successfully installed wscat. Finally, I confirmed that the command is now available by running \"wscat --version\", which returned \"6.0.1\". 
 
 The issue is now resolved."
 hans@LAPTOP-O1AO16UE:/wtf$ wscat
@@ -118,9 +118,14 @@ sudo chmod a+x /usr/local/bin/aido
 sudo ln -sv "$(pwd)/src/aifix.php" /usr/local/bin/aifix
 sudo chmod a+x /usr/local/bin/aifix
 ```
+
 ## AI Models
 
-- **Default Model - 4o-mini**: Cost-effective and suitable for general tasks.
-- **Advanced Model - o3-mini**: Choose this for complex tasks; it's 7 times the cost of 4o-mini.
-- **Premium Model - o1**: Use for the most challenging issues; it's 100 times more expensive than 4o-mini and 13 times more than o3-mini (untested).
+- **Default Model - o3-mini**: Cost-effective and suitable for general tasks.
+
+- **Premium Model - o1**: Use for the most challenging issues; it's approximately 13.6 times more expensive than o3-mini.
+
+- **4o**: 2.27x more expensive than o3-mini, and seems to do *worse*, or no better, than o3-mini.
+
+- **4o-mini** is the cheapest option, cost only 14% of o3-mini, but it's "lazy"—it may assume it found the solution, apply it, and report success without verifying the issue is truly resolved. Not recommended :( (it is the cheapest way to test aifix / aido, tho)
 

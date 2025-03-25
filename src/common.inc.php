@@ -168,7 +168,7 @@ function pick_ai_model(): string
     global $argv;
     global $argc;
     $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
-    $model = 'gpt-4o-mini';
+    $model = 'o3-mini';
     if (file_exists($configFile)) {
         $contents = file_get_contents($configFile);
         $config = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
@@ -180,18 +180,13 @@ function pick_ai_model(): string
     foreach ($argv as $index => $arg) {
         if (strpos($arg, '--model=') === 0) {
             $providedModel = substr($arg, strlen('--model='));
-            $models = array(
+            $aliases = array(
                 '4o' => 'gpt-4o',
-                'gpt-4o' => 'gpt-4o',
                 '4omini' => 'gpt-4o-mini',
-                'gpt-4o-mini' => 'gpt-4o-mini',
+                '4o-mini' => 'gpt-4o-mini',
                 'o3mini' => 'o3-mini',
-                'o3-mini' => 'o3-mini'
             );
-            if (!array_key_exists($providedModel, $models)) {
-                throw new Exception('Invalid model provided. Allowed values: ' . implode(', ', array_keys($models)));
-            }
-            $model = $models[$providedModel];
+            $model = $aliases[$providedModel] ?? $providedModel;
             // Remove the model argument so that the remaining arguments are processed normally
             unset($argv[$index]);
         }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 class OpenAI
 {
-    private $model = 'gpt-4o-mini'; // 'gpt-4o';
+    private $model = 'o3-mini';
     // Store tools as an associative array keyed by tool name.
     private $tools_definitions = [];
     public $tools_handlers = []; // todo should be private. temporarily public for debugging.
@@ -11,10 +11,13 @@ class OpenAI
 
     public function setModel(string $model)
     {
-        $allowedModels = ['gpt-4o', 'gpt-4o-mini', 'o3-mini'];
-        if (!in_array($model, $allowedModels, true)) {
-            throw new Exception("Invalid model: $model");
-        }
+        $aliases = array(
+            '4o' => 'gpt-4o',
+            '4omini' => 'gpt-4o-mini',
+            '4o-mini' => 'gpt-4o-mini',
+            'o3mini' => 'o3-mini',
+        );
+        $model = $aliases[$model] ?? $model;
         $this->model = $model;
     }
     public function __construct(
