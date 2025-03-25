@@ -101,8 +101,6 @@ class OpenAI
                         var_dump(["toolName" => $toolName, "arguments" => $arguments]);
                         throw $e;
                     }
-
-                    $toolResult = $handler($toolName, ...$arguments);
                     // Record the tool call and the tool's response into the message history.
                     $this->messages[] = [
                         'role' => 'assistant',
