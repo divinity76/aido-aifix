@@ -5,15 +5,15 @@ set -euxo pipefail
 command -v git >/dev/null 2>&1 || { echo "Error: git is not installed." >&2; exit 1; }
 command -v php >/dev/null 2>&1 || { echo "Error: php is not installed." >&2; exit 1; }
 
-
-read -p "Enter your OpenAI API key: " API_KEY
+# Prompt for the OpenAI API key from the terminal
+read -p "Enter your OpenAI API key: " API_KEY </dev/tty
 if [ -z "$API_KEY" ]; then
     echo "Error: API key cannot be empty." >&2
     exit 1
 fi
 
-# default model (recommend o3-mini)
-read -p "Default model (leave blank for the recommended model 'o3-mini'): " DEFAULT_MODEL
+# Prompt for the default model (with a fallback to 'o3-mini')
+read -p "Default model (leave blank for the recommended model 'o3-mini'): " DEFAULT_MODEL </dev/tty
 if [ -z "$DEFAULT_MODEL" ]; then
     DEFAULT_MODEL="o3-mini"
 fi
