@@ -560,8 +560,9 @@ $openai->addTool(
     'Execute a PHP script',
     [
         'script' => ['type' => 'string', 'description' => 'The PHP script to execute'],
+        'stdin'  => ['type' => 'string', 'description' => 'The standard input for the script'],
     ],
-    function ($toolName, $script) {
+    function ($toolName, $script, string $stdin) {
         var_dump([
             "toolName" => $toolName,
             "script"   => $script
@@ -591,7 +592,9 @@ $openai->addTool(
                 'error' => 'Failed to execute command: ' . var_export(error_get_last(), true)
             ]);
         }
-
+        if(strlen($stdin) > 0) {
+            fwrite($pipes[0], $stdin);
+        }
         fclose($pipes[0]);
         unset($pipes[0]);
 
@@ -690,8 +693,6 @@ $openai->addTool(
         return js_encode($response);
     }
 );
-
-
 $openai->addTool(
     'ask_user',
     'Ask the user a question and return their response',

@@ -4,12 +4,24 @@
 declare(strict_types=1);
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'common.inc.php');
 
+$enable_gui = false;
+foreach($argv as $key => $arg){
+    if($arg === '--gui'){
+        $enable_gui = true;
+        unset($argv[$key]);
+        $argv = array_values($argv);
+        break;
+    }
+}
+
 // Create OpenAI instance and set the model
 $openai = new OpenAI(get_openai_api_key());
 $openai->setModel(pick_ai_model());
 
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'ai_tools.php');
-
+if ($enable_gui) {
+    require_once(__DIR__ . DIRECTORY_SEPARATOR . 'ai_tools_gui.php');
+}
 // Get the user-provided instructions from the command-line arguments
 $args = $argv;
 array_shift($args);
