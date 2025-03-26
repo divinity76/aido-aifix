@@ -99,8 +99,14 @@ Test
 - **PHP** 8.0 or newer
 - **OpenAI API key** (with access to models like `o3-mini`)
 - **Unix-like OS** (Linux, macOS, *BSD)
+(Microsoft Windows support is in development)
 
 # Installation
+For Unix systems (Linux/MacOS/*BSD):
+```
+wget -O- 'https://raw.githubusercontent.com/divinity76/aido-aifix/refs/heads/main/src/stuff/install_unix.sh' | bash
+```
+alternatively:
 ```bash
 git clone --recurse-submodules --depth=1 https://github.com/divinity76/aido-aifix.git
 cd aido-aifix
