@@ -1,14 +1,20 @@
 <?php
 
 declare(strict_types=1);
+
 function AiDirFixer(string $path): string
 {
     // for unknown reasons, the ai (at least 4o-mini) sometimes include trailing whitespace in the path...
     // Technically, unix paths can have trailing whitespace, but it's extremely rare.
-    // We'll choose not to support it for now... it's far more likely to be a AI mistake.
+    // We'll choose not to support it.
+    // it's far more likely to be a AI mistake, than an actual directory-name-with-space.
     $path = trim($path);
     if (str_starts_with($path, '~')) {
-        $path = $_SERVER['HOME'] . substr($path, 1);
+        $path = getUserHomeDir() . substr($path, 1);
+    }
+    // Ensure cross-platform directory separators. On Windows, replace forward slashes with DIRECTORY_SEPARATOR
+    if (DIRECTORY_SEPARATOR !== '/') {
+        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
     return $path;
 }
@@ -548,6 +554,7 @@ $openai->addTool(
         return js_encode($result);
     }
 );
+
 $openai->addTool(
     'execute_php_script',
     'Execute a PHP script',

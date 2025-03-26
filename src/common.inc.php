@@ -1,6 +1,26 @@
 <?php
 
 declare(strict_types=1);
+
+function getUserHomeDir(): string
+{
+    // Provide a fallback for Windows environments where HOME may not be set
+    $home = getenv('HOME');
+    if (!empty($home)) {
+        return $home;
+    }
+    $userProfile = getenv('USERPROFILE');
+    if (!empty($userProfile)) {
+        return $userProfile;
+    }
+    $drive = getenv('HOMEDRIVE');
+    $path = getenv('HOMEPATH');
+    if (!empty($drive) && !empty($path)) {
+        return $drive . $path;
+    }
+    return __DIR__;
+}
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 set_error_handler(function ($errno, $errstr, $errfile, $errline) {
@@ -61,7 +81,14 @@ function run_input_command(array $args): array
             $compiledCommand .= $arg . ' ';
             continue;
         }
-        $compiledCommand .=  "'" . \strtr($arg, array("'" => "'\\''")) . "' ";
+        $isUnix = DIRECTORY_SEPARATOR === '/';
+        if ($isUnix) {
+            // php's escapeshellarg for unix is broken: https://github.com/divinity76/phpquoteshellarg
+            $compiledCommand .=  "'" . \strtr($arg, array("'" => "'\\''")) . "' ";
+        } else {
+            // i am not touching https://learn.microsoft.com/en-gb/archive/blogs/twistylittlepassagesallalike/everyone-quotes-command-line-arguments-the-wrong-way
+            $compiledCommand .= escapeshellarg($arg) . ' ';
+        }
     }
     $compiledCommand = rtrim($compiledCommand, ' ');
     $descriptor_spec = [
@@ -150,7 +177,8 @@ function run_input_command(array $args): array
 
 function get_openai_api_key(): string
 {
-    $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
+    $home = getUserHomeDir();
+    $configFile = $home . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
     if (!file_exists($configFile)) {
         throw new Exception('OpenAI api key not found at ' . $configFile);
     }
@@ -167,7 +195,8 @@ function pick_ai_model(): string
 {
     global $argv;
     global $argc;
-    $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
+    $home = getUserHomeDir();
+    $configFile = $home . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
     $model = 'o3-mini';
     if (file_exists($configFile)) {
         $contents = file_get_contents($configFile);

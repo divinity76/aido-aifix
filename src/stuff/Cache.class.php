@@ -7,7 +7,7 @@ class Cache
     private \PDO $db;
     private function __construct()
     {
-        $dbFile = __DIR__ . "/cache.db3";
+        $dbFile = __DIR__ . DIRECTORY_SEPARATOR . "cache.db3";
         $exists = file_exists($dbFile);
         $this->db = new \PDO("sqlite:$dbFile", null, null, [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
