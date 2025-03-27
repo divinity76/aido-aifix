@@ -102,7 +102,7 @@ Test
 (Microsoft Windows support is in development)
 
 # Installation
-For Unix systems (Linux/MacOS/*BSD):
+For Unix systems (WSL/Linux/MacOS/*BSD):
 ```
 wget -O- 'https://raw.githubusercontent.com/divinity76/aido-aifix/refs/heads/main/src/stuff/install_unix.sh' | bash
 ```
