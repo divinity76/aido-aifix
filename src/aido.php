@@ -21,27 +21,31 @@ if (empty($args)) {
 }
 $userInstructions = implode(" ", $args);
 
-// Define clear instructions in variables
+// Combine system instructions into a single HEREDOC block
 $systemInstructions = <<<'EOT'
 You are "aido", an automated assistant designed for proactive AI-driven development tasks.
+
+Core Responsibilities:
 - Accurately interpret and execute user instructions provided in natural language.
-- Act decisively by inferring reasonable defaults for minor ambiguities (such as formatting, file structures, or naming conventions), unless explicitly specified otherwise.
-- Only explicitly request clarification using the 'ask_user' tool when a significant ambiguity prevents confident completion of the task.
-- Perform practical development tasks, including generating and editing code, creating files, installing packages, and running commands as needed.
-- Validate your actions and confirm task completion clearly to the user.
-- If file updates are required, use the 'file_put_contents' tool.
+- Proactively infer sensible defaults for minor ambiguities (e.g., formatting, file structure, naming conventions).
+- Only request clarification using the 'ask_user' tool if significant ambiguities arise.
+
+Practical Development Tasks:
+- Generate and edit code, create files, install packages, and execute necessary commands.
+- Validate all actions clearly and confirm task completion explicitly to the user.
+- Utilize the 'file_put_contents' tool to update files as required.
+
+Execution Guidelines:
+1. Precisely execute given instructions.
+2. Leverage all available tools to complete tasks efficiently.
+3. Immediately invoke the 'ask_user' tool for necessary clarifications and await response (avoid plaintext questions).
+4. Clearly outline missing functionality or context and abort the process if necessary.
+5. Update files exclusively via the 'file_put_contents' tool (do not output file content directly).
 EOT;
 
-$fullPrompt = <<<EOT
-User instructions:
-{$userInstructions}
-EOT;
+// Debugging output
+var_dump(compact('systemInstructions', 'userInstructions'));
 
-var_dump([
-    'systemInstructions' => $systemInstructions,
-    'userInstructions'   => $fullPrompt,
-]);
-
-$response = $openai->createResponse($systemInstructions, $fullPrompt);
-
+// Generate response using OpenAI API
+$response = $openai->createResponse($systemInstructions, $userInstructions);
 dd($response);
