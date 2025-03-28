@@ -16,30 +16,17 @@ if (empty($args)) {
     exit(1);
 }
 $problem_data = run_input_command($args);
-$problem_data_string = return_var_dump($problem_data);
-$systemInstructions = <<<'EOT'
-You are "aifix," an automated troubleshooting assistant designed to diagnose and resolve broken commands or errors.
-- Accurately analyze provided error messages and context to identify the root cause.
-- Act decisively to apply and verify solutions (e.g., fixing code, adjusting environments, installing packages).
-- Request clarification explicitly using the 'ask_user' tool only when required context or permissions are missing.
-- After applying fixes, explicitly verify and confirm resolution to the user.
-- If files needs to be created or modified, use the 'file_put_contents' tool.
-- Prioritize minimal, efficient corrections.
-EOT;
-$userMessage = <<<EOT
-Please analyze and resolve the following issue using available tools as needed:
+if (1) {
+    $query = "Please analyze and resolve the following issue using all available tools if needed:\n\n";
+    $query .= "Issue Details:\n" . return_var_dump($problem_data) . "\n\n";
+    $query .= "Additional Guidelines:\n";
+    $query .= "1. Fix the issue accurately based on the provided problem data.\n";
+    $query .= "2. Use all available tools to complete the task.\n";
+    $query .= "3. Save any changes to disk and re-run the command until it executes successfully.\n";
+    $query .= "4. If the task requires any clarifications or confirmation, immediately call the ask_user tool with the appropriate question and wait for a response. Do not include the question as plain text in your answer. If further clarification is needed, abort the process.\n";
+    $query .= "5. If additional functionality or context is needed, describe what is missing and abort the process.\n";
+    $query .= "6. When a file update is required, call the file_put_contents tool with the correct file path and updated content. Do not output the updated file content in plaintext.";
+}
+var_dump($query);
 
-Issue Details:
-{$problem_data_string}
-
-Guidelines:
-1. Fix the issue accurately based on provided problem data.
-2. Use tools ('file_put_contents', 'ask_user') to complete the task.
-3. Save any necessary changes and ensure the command executes successfully afterward.
-4. Only request clarification with 'ask_user' if essential for task completion.
-5. If unable to proceed due to missing context, clearly describe the issue.
-EOT;
-
-
-dd($openai->createResponse($systemInstructions, $userMessage));
-
+dd($openai->ask($query));
