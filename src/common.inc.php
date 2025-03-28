@@ -29,6 +29,7 @@ set_error_handler(function ($errno, $errstr, $errfile, $errline) {
     }
 });
 //require_once(__DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+require_once(__DIR__ . DIRECTORY_SEPARATOR . 'ArgumentDescription.class.php');
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'OpenAI.class.php');
 require_once(__DIR__ . DIRECTORY_SEPARATOR . 'stuff' . DIRECTORY_SEPARATOR . 'Cache.class.php');
 
@@ -81,14 +82,7 @@ function run_input_command(array $args): array
             $compiledCommand .= $arg . ' ';
             continue;
         }
-        $isUnix = DIRECTORY_SEPARATOR === '/';
-        if ($isUnix) {
-            // php's escapeshellarg for unix is broken: https://github.com/divinity76/phpquoteshellarg
-            $compiledCommand .=  "'" . \strtr($arg, array("'" => "'\\''")) . "' ";
-        } else {
-            // i am not touching https://learn.microsoft.com/en-gb/archive/blogs/twistylittlepassagesallalike/everyone-quotes-command-line-arguments-the-wrong-way
-            $compiledCommand .= escapeshellarg($arg) . ' ';
-        }
+        $compiledCommand .= quoteshellarg($arg) . ' ';
     }
     $compiledCommand = rtrim($compiledCommand, ' ');
     $descriptor_spec = [

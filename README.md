@@ -1,11 +1,13 @@
 ## aido-aifix
+
 Command-line utilities for AI-driven development and troubleshooting
 
-- **aido** is your command-line AI assistant. Describe your goal in plain English — it figures out what to do *and actually does it*. That might mean **generating code**, **installing packages**, **creating files**, **running commands** — or all of the above.
+- **aido** is your command-line AI assistant. Describe your goal in plain English — it figures out what to do _and actually does it_. That might mean **generating code**, **installing packages**, **creating files**, **running commands** — or all of the above.
 
 - **aifix** is your automated troubleshooter. It takes a broken CLI command (like a failed compile), analyzes the error, and keeps editing code or adjusting the environment until the issue is resolved.
 
 ## 🧲 Marketing fluff
+
 🛠️ apt broke? npm failed? Syntax error? It doesn’t just explain the fix — it applies the fix.
 
 🔥 9/10 would install on every dev machine. --author
@@ -18,9 +20,8 @@ Command-line utilities for AI-driven development and troubleshooting
   _Stop chasing cryptic errors — let AI fix them._
 - 💬 Interactive when needed, but often fully hands-free
 
-## 🧪 Example: Fixing a Broken Command with `aifix`
-Here’s how **aifix**  handled a broken `apt install` by suggesting and guiding through an alternative installation method for `wscat` on Ubuntu.  
-_Model used: `o3-mini`_
+## 🧪 Example: Fixing a broken apt-get install
+
 ```bash
 hans@LAPTOP-O1AO16UE:/wtf$ wscat
 Command 'wscat' not found, but can be installed with:
@@ -63,6 +64,7 @@ Options:
 ```
 
 ## ⚙️ Example: Creating a Web Project with `aido`
+
 ```bash
 # Using aido to automate the setup of a small web project
 hans@LAPTOP-O1AO16UE:/projects$ aido create a new web project with HTML, CSS, and JavaScript
@@ -98,15 +100,19 @@ Test
 
 - **PHP** 8.0 or newer
 - **OpenAI API key** (with access to models like `o3-mini`)
-- **Unix-like OS** (Linux, macOS, *BSD)
-(Microsoft Windows support is in development)
+- **Unix-like OS** (Linux, macOS, \*BSD)
+  (Microsoft Windows support is in development)
 
 # Installation
-For Unix systems (WSL/Linux/MacOS/*BSD):
+
+For Unix systems (WSL/Linux/MacOS/\*BSD):
+
 ```
 wget -O- 'https://raw.githubusercontent.com/divinity76/aido-aifix/refs/heads/main/src/stuff/install_unix.sh' | bash
 ```
+
 alternatively:
+
 ```bash
 git clone --recurse-submodules --depth=1 https://github.com/divinity76/aido-aifix.git
 cd aido-aifix
@@ -119,13 +125,15 @@ echo '{"api_key":"OpenAI-api-key-here", "default_model":"o3-mini"}' > ~/.config/
 ```
 
 ### 🤖 AI Model Comparison
-| Model      | Cost vs o3-mini | Quality       | Notes                                  |
-|------------|------------------|---------------|-----------------------------------------|
-| `o3-mini`  | 1x               | ✅ Great       | Default choice — solid balance of cost and performance |
-| `o1`       | 13.6x            | 🔥 Best        | Use for the toughest problems — very capable |
-| `4o`       | 2.27x            | ⚠️ Meh         | Not worth the extra cost — often worse than `o3-mini` |
-| `4o-mini`  | 0.14x            | 💤 Lazy        | Very cheap, but tends to apply and report unverified fixes |
 
-- **4o**: Not recommended. 2.27x more expensive than o3-mini, and seems to do *worse*, or no better, than o3-mini.
+| Model     | Cost vs `o3-mini` | Quality      | Notes                                                        |
+| --------- | ----------------- | ------------ | ------------------------------------------------------------ |
+| `o3-mini` | 1x                | ✅ Great     | Default choice — solid balance of cost and performance       |
+| `o1`      | 13.6x             | 🔥 Excellent | Suitable for complex tasks requiring advanced reasoning      |
+| `o1-pro`  | 136x              | 🚀 Superior  | Most capable model, ideal for highly complex problem-solving |
+| `4o`      | 2.27x             | ⚠️ Meh       | Not worth the extra cost — often worse than `o3-mini`        |
+| `4o-mini` | 0.14x             | 💤 Lazy      | Very cheap, but tends to apply and report unverified fixes   |
+
+- **4o**: Not recommended. 2.27x more expensive than o3-mini, and seems to do _worse_, or no better, than o3-mini.
 
 - **4o-mini**: Not recommended. is the cheapest option, cost only 14% of o3-mini, but it's "lazy"—it may assume it found the solution, apply it, and report success without actually verifying. Not recommended :( (it is the cheapest way to test aifix / aido, tho)

@@ -2,44 +2,46 @@
 <?php
 
 declare(strict_types=1);
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'common.inc.php');
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'common.inc.php';
 
-$enable_gui = false;
-foreach($argv as $key => $arg){
-    if($arg === '--gui'){
-        $enable_gui = true;
-        unset($argv[$key]);
-        $argv = array_values($argv);
-        break;
-    }
-}
-
-// Create OpenAI instance and set the model
 $openai = new OpenAI(get_openai_api_key());
 $openai->setModel(pick_ai_model());
 
-require_once(__DIR__ . DIRECTORY_SEPARATOR . 'ai_tools.php');
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'ai_tools.php';
+
+$enable_gui = false;
 if ($enable_gui) {
-    require_once(__DIR__ . DIRECTORY_SEPARATOR . 'ai_tools_gui.php');
+    require_once __DIR__ . DIRECTORY_SEPARATOR . 'ai_tools_gui.php';
 }
-// Get the user-provided instructions from the command-line arguments
-$args = $argv;
-array_shift($args);
+
+$args = array_slice($argv, 1);
 if (empty($args)) {
     fwrite(STDERR, "Usage: aido \"your instructions here\"\n");
     exit(1);
 }
 $userInstructions = implode(" ", $args);
 
-// Build the query with generic instructions
-$query  = "Please follow the instructions provided below using all available tools if needed:\n\n";
-$query .= "User Instructions:\n" . $userInstructions . "\n\n";
-$query .= "Additional Guidelines:\n";
-$query .= "1. Execute the instructions accurately.\n";
-$query .= "2. Use all available tools to complete the task.\n";
-$query .= "3. If the task requires any clarifications or confirmation, immediately call the ask_user tool with the appropriate question and wait for a response. Do not include the question as plain text in your answer. If further clarification is needed, abort the process.\n";
-$query .= "4. If additional functionality or context is needed, describe what is missing and abort the process.\n";
-$query .= "5. When a file update is required, call the file_put_contents tool with the correct file path and updated content. Do not output the updated file content in plaintext.";
+// Define clear instructions in variables
+$systemInstructions = <<<'EOT'
+You are "aido", an automated assistant designed for proactive AI-driven development tasks.
+- Accurately interpret and execute user instructions provided in natural language.
+- Act decisively by inferring reasonable defaults for minor ambiguities (such as formatting, file structures, or naming conventions), unless explicitly specified otherwise.
+- Only explicitly request clarification using the 'ask_user' tool when a significant ambiguity prevents confident completion of the task.
+- Perform practical development tasks, including generating and editing code, creating files, installing packages, and running commands as needed.
+- Validate your actions and confirm task completion clearly to the user.
+- If file updates are required, use the 'file_put_contents' tool.
+EOT;
 
-var_dump($query);
-dd($openai->ask($query));
+$fullPrompt = <<<EOT
+User instructions:
+{$userInstructions}
+EOT;
+
+var_dump([
+    'systemInstructions' => $systemInstructions,
+    'userInstructions'   => $fullPrompt,
+]);
+
+$response = $openai->createResponse($systemInstructions, $fullPrompt);
+
+dd($response);
