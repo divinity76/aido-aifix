@@ -236,7 +236,7 @@ class OpenAI
                             'id' => 'fc_67e5e495f65c8191981da6bf097900aa0247c61d2b60896a',
                             'call_id' => 'call_bvjd1FZyOiXM8maeC1dZ2YWD',
                             'name' => 'ls',
-                            'arguments' => '{"path":"."}',
+                            'arguments' => '{\"path\":\".\"}',
                             'status' => 'completed',
                         );
                     }
@@ -265,7 +265,7 @@ class OpenAI
                                 0 =>
                                 array(
                                     'type' => 'output_text',
-                                    'text' => '{"response_text":"The current directory contains the following files:\\n\\n- file1.txt\\n- file2.txt"}',
+                                    'text' => '{\"response_text\":\"The current directory contains the following files:\\\n\\\\n- file1.txt\\\\n- file2.txt\"}',
                                     'annotations' =>
                                     array(),
                                 ),
@@ -330,6 +330,27 @@ class OpenAI
             }
         }
     }
+
+    /**
+     * Generate a structured summary of installed tools.
+     *
+     * @return array Structured summary of tools.
+     */
+    public function summarizeTools(): array
+    {
+        $summary = [];
+        foreach ($this->tools as $tool) {
+            $toolSummary = [
+                'type' => $tool['type'] ?? null,
+                'name' => $tool['name'] ?? null,
+                'description' => $tool['description'] ?? null,
+                'parameters' => $tool['parameters'] ?? null
+            ];
+            $summary[] = $toolSummary;
+        }
+        return $summary;
+    }
+
     private function curlJson(string $url, array $opts = [])
     {
         $opts[CURLOPT_URL] = $url;

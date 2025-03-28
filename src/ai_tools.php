@@ -198,15 +198,13 @@ $openai->addTool(
 );
 $openai->addTool(
     'file_put_contents',
-    'create, replace, or append to a file',
+    'Write contents to a file',
     function (
         string $toolName,
         #[ArgumentDescription('The file to write to', '~/Documents/file.txt')]
         string $path,
         #[ArgumentDescription('The content to write', 'Hello, world!')]
-        string $contents,
-        #[ArgumentDescription('Append instead of overwriting', "false")]
-        bool $append
+        string $contents
     ) {
         $path = AiDirFixer($path);
         var_dump([
@@ -214,32 +212,18 @@ $openai->addTool(
             "path" => $path,
             "contents" => $contents
         ]);
-        $ret = [];
-        $dirname = dirname($path);
-        if (!is_dir($dirname)) {
-            if (!mkdir($dirname, 0777, true)) {
-                return ([
-                    'error' => 'Failed to create directory: ' . var_export($dirname, true)
-                ]);
-            }
-            $ret['created_directory'] = $dirname;
-        }
-        $flags = $append ? FILE_APPEND : 0;
-        $flags |= LOCK_EX; // Use exclusive lock
-        $written = @file_put_contents($path, $contents, $flags);
-        $success = ($written === strlen($contents));
-        $ret['success'] = $success;
-        $ret['file_path'] = $path;
-        $ret['bytes_written'] = $written;
-        if (is_file($path)) {
-            $ret['file_size'] = filesize($path);
-        }
+        $success = @file_put_contents($path, $contents);
+        $ret = [
+            'success' => $success,
+            'file_path' => $path
+        ];
         if (!$success) {
             $ret['error'] = var_export(error_get_last(), true);
         }
-        return ($ret);
+        return js_encode($ret);
     }
 );
+
 $openai->addTool(
     'file_patch_contents',
     'Patch contents in a file by byte offset',
