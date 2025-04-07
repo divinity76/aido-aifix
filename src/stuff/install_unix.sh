@@ -18,19 +18,43 @@ if [ -z "$DEFAULT_MODEL" ]; then
     DEFAULT_MODEL="o3-mini"
 fi
 
+# Prompt for target installation directory
+echo "Where do you want to install the symbolic links for the commands?"
+echo "1) /usr/local/bin (system-wide, requires sudo)"
+echo "2) \$HOME/.local/bin (user-specific)"
+read -p "Enter 1 or 2: " target_option </dev/tty
+
+if [ "$target_option" -eq 1 ]; then
+    target_bin="/usr/local/bin"
+elif [ "$target_option" -eq 2 ]; then
+    target_bin="$HOME/.local/bin"
+    mkdir -p "$target_bin"
+else
+    echo "Invalid option, defaulting to /usr/local/bin"
+    target_bin="/usr/local/bin"
+fi
+
 # Clone the repository
 echo "Cloning aido-aifix repository..."
 git clone --recurse-submodules --depth=1 https://github.com/divinity76/aido-aifix.git
 
 cd aido-aifix
 
-# Create symbolic links in /usr/local/bin
-echo "Creating symbolic links..."
-sudo ln -sv "$(pwd)/src/aido.php" /usr/local/bin/aido
-sudo chmod a+x /usr/local/bin/aido
+# Create symbolic links in the chosen directory
+echo "Creating symbolic links in $target_bin ..."
+if [ "$target_bin" = "/usr/local/bin" ]; then
+    sudo ln -sv "$(pwd)/src/aido.php" "$target_bin/aido"
+    sudo chmod a+x "$target_bin/aido"
 
-sudo ln -sv "$(pwd)/src/aifix.php" /usr/local/bin/aifix
-sudo chmod a+x /usr/local/bin/aifix
+    sudo ln -sv "$(pwd)/src/aifix.php" "$target_bin/aifix"
+    sudo chmod a+x "$target_bin/aifix"
+else
+    ln -sv "$(pwd)/src/aido.php" "$target_bin/aido"
+    chmod a+x "$target_bin/aido"
+
+    ln -sv "$(pwd)/src/aifix.php" "$target_bin/aifix"
+    chmod a+x "$target_bin/aifix"
+fi
 
 # Create configuration directory and file
 echo "Setting up configuration..."
