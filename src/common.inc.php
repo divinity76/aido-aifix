@@ -264,3 +264,15 @@ function quoteshellarg($arg): string
     // fallback to php's builtin escapeshellarg
     return \escapeshellarg($arg);
 }
+
+if (!function_exists('readline')) {
+    function readline(string $prompt = ''): string
+    {
+        echo $prompt . ': ';
+        return rtrim(fgets(STDIN), "\n");
+    }
+    function readline_add_history(string $line): void
+    {
+        // No-op: This is a placeholder for environments without readline support.
+    }
+}
