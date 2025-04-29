@@ -376,7 +376,7 @@ $openai->addTool(
             'description' => 'Max execution time in seconds before killing the process (0 for no timeout. Default: 30)',
         ],
     ],
-    function ($toolName, $command, $stdin, $timeout = 30) {
+    function ($toolName, $command, $stdin = "", $timeout = 30) {
         var_dump([
             "toolName" => $toolName,
             "command" => $command,
