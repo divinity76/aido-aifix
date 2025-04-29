@@ -197,7 +197,7 @@ function pick_ai_model(): string
     global $argc;
     $home = getUserHomeDir();
     $configFile = $home . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'aido.json';
-    $model = 'o3-mini';
+    $model = 'o4-mini';
     if (file_exists($configFile)) {
         $contents = file_get_contents($configFile);
         $config = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
@@ -214,6 +214,7 @@ function pick_ai_model(): string
                 '4omini' => 'gpt-4o-mini',
                 '4o-mini' => 'gpt-4o-mini',
                 'o3mini' => 'o3-mini',
+                'o4mini' => 'o4-mini',
             );
             $model = $aliases[$providedModel] ?? $providedModel;
             // Remove the model argument so that the remaining arguments are processed normally
