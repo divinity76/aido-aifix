@@ -3,7 +3,7 @@
 declare(strict_types=1);
 class OpenAI
 {
-    private $model = 'o3-mini';
+    private $model = 'o4-mini';
     // Store tools as an associative array keyed by tool name.
     private $tools_definitions = [];
     public $tools_handlers = []; // todo should be private. temporarily public for debugging.

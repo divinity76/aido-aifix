@@ -498,7 +498,7 @@ $openai->addTool(
         'script' => ['type' => 'string', 'description' => 'The Python script to execute'],
         'stdin'  => ['type' => 'string', 'description' => 'The standard input for the script'],
     ],
-    function ($toolName, $script, $stdin) {
+    function ($toolName, $script, $stdin = "") {
         var_dump([
             "toolName" => $toolName,
             "script"   => $script,
