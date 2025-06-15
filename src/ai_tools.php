@@ -244,52 +244,7 @@ $openai->addTool(
         return js_encode($ret);
     }
 );
-$openai->addTool(
-    'file_patch_contents',
-    'Patch contents in a file by byte offset',
-    [
-        'path' => ['type' => 'string', 'description' => 'The file to patch'],
-        'offset' => ['type' => 'integer', 'description' => 'The offset to patch'],
-        'bytes_to_remove' => ['type' => 'integer', 'description' => 'The number of bytes to remove from offset'],
-        'contents' => ['type' => 'string', 'description' => 'The content to insert at offset']
-    ],
-    function ($toolName, $path, $offset, $bytes_to_remove, $contents) {
-        $path = AiDirFixer($path);
-        if (1) var_dump([
-            "toolName" => $toolName,
-            "path" => $path,
-            "offset" => $offset,
-            "bytes_to_remove" => $bytes_to_remove,
-            "contents" => $contents
-        ]);
 
-        if (!is_file($path)) {
-            return js_encode([
-                'error' => 'Not a valid file: ' . var_export($path, true)
-            ]);
-        }
-
-        $fileContents = file_get_contents($path);
-        if ($fileContents === false) {
-            return js_encode([
-                'error' => 'Failed to read file: ' . var_export(error_get_last(), true)
-            ]);
-        }
-
-        // Use $contents as the new text to insert into $fileContents
-        $new_contents = substr_replace($fileContents, $contents, $offset, $bytes_to_remove);
-
-        $success = @file_put_contents($path, $new_contents);
-        $ret = [
-            'success' => $success,
-            'file_path' => $path
-        ];
-        if (!$success) {
-            $ret['error'] = var_export(error_get_last(), true);
-        }
-        return js_encode($ret);
-    }
-);
 $openai->addTool(
     'file_exists',
     'Check if a file exists',
