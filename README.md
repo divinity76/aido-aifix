@@ -1,5 +1,15 @@
+## Alternative Recommendation
+
+While **aido-aifix** remains available, an attractive alternative is the [OpenAI Codex CLI](https://github.com/openai/codex). It provides similar core capabilities, plus ongoing updates.
+For parity, configure:
+```toml
+sandbox_mode = "danger-full-access"
+network_access = true
+```
+
 ## aido-aifix
 Command-line utilities for AI-driven development and troubleshooting
+
 
 - **aido** is your command-line AI assistant. Describe your goal in plain English — it figures out what to do *and actually does it*. That might mean **generating code**, **installing packages**, **creating files**, **running commands** — or all of the above.
 
